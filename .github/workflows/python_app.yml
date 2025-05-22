@@ -25,7 +25,7 @@ jobs:
     strategy:
       matrix:
         version: [3.11, 3.12]
-        os: [ubuntu-latest]
+        os: [ubuntu-latest,self-hosted]
 
     runs-on: ${{ matrix.os }}
 
@@ -60,11 +60,11 @@ jobs:
   deploy:
     strategy:
       matrix:
-        env: [dev, staging, production]
+        env: [production]
     if: github.event.schedule == ''
     needs: 
       - build
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.env }}
     environment:
       name: ${{ matrix.env }}
     steps:
