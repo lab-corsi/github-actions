@@ -1,0 +1,24 @@
+name: Deploy from redmine API
+
+on:
+  repository_dispatch:
+    types: [deploy_from_redmine]
+
+
+# {
+#   "event_type":"deploy_from_redmine",
+#   "client_payload":{
+#     "env_name":"prod",
+#      "version":"1.0.1"
+#   }
+# }
+jobs:
+  deploy_from_redmine:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    steps:
+      - run: |
+          deploy to $ENV_NAME
+        env:
+          ENV_NAME: ${{ github.event.client_payload.env_name }}
