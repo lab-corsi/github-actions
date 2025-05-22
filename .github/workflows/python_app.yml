@@ -48,3 +48,48 @@ jobs:
       - name: Run unit tests
         run: |
           uv run pytest
+
+  deploy-dev:
+    runs-on: ubuntu-latest
+    environment:
+      name: dev
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Deploy to Dev
+        run: echo "Deploying to Dev..."
+        env:
+          SECRET: ${{ secrets.API_SECRET }}
+
+  deploy-staging:
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Deploy to Stg
+        run: echo "Deploying to Stg..."
+        env:
+          SECRET: ${{ secrets.API_SECRET }}
+          
+  deploy-prod:
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Deploy to Prod
+        run: echo "Deploying to Prod..."
+        env:
+          SECRET: ${{ secrets.API_SECRET }}
