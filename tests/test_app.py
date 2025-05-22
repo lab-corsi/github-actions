@@ -52,4 +52,4 @@ def test_other_path(http_server_port):
 
 
 def test_should_sum():
-    assert custom_math.add(2,3)==6
+    assert custom_math.add(2,3)==5
