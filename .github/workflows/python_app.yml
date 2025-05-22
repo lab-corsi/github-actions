@@ -53,8 +53,8 @@ jobs:
     needs: 
       - build
     runs-on: ubuntu-latest
-    # environment:
-    #   name: dev
+    environment:
+      name: dev
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -71,8 +71,8 @@ jobs:
       - build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/staging'
-    # environment:
-    #   name: staging
+    environment:
+      name: staging
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
