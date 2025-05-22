@@ -49,56 +49,23 @@ jobs:
         run: |
           uv run pytest
 
-  deploy-dev:
+  deploy:
+    strategy:
+      matrix:
+        env: [dev, staging, production]
     needs: 
       - build
     runs-on: ubuntu-latest
     environment:
-      name: dev
+      name: ${{ matrix.env }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
           python-version: 3.11
 
-      - name: Deploy to Dev
-        run: echo "Deploying to Dev..."
+      - name: Deploy to ${{ matrix.env }}
+        run: echo "Deploying to $ENV_NAME..."
         env:
           SECRET: ${{ secrets.API_SECRET }}
-
-  deploy-staging:
-    needs: 
-      - build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/staging'
-    environment:
-      name: staging
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
-
-      - name: Deploy to Stg
-        run: echo "Deploying to Stg..."
-        env:
-          SECRET: ${{ secrets.API_SECRET }}
-
-  deploy-prod:
-    needs: 
-      - build
-      - deploy-dev
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    environment:
-      name: production
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
-
-      - name: Deploy to Prod
-        run: echo "Deploying to Prod..."
-        env:
-          SECRET: ${{ secrets.API_SECRET }}
+          ENV_NAME: ${{ matrix.env }}
